@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="app">
+    <h2>测试:v-for遍历数组</h2>
+    <ul>
+      <li v-for="(item,index) in persons" :key="item.id">
+        {{item.id}}---{{item.name}}---{{item.age}}---
+        <button @click="deletePer(index)">删除</button>---
+        <button @click="updatePer(index,{id:Date.now(),name:'Tom',age:80})">更新</button>
+      </li>
+    </ul>
+
+    <h2>测试:v-for遍历对象</h2>
+
+
+  </div>
+  <script src="../js/vue.js"></script>
+  <script>
+    const vm = new Vue({
+      el:'#app',
+      data:{
+        persons:[
+          {id:11,name:'Amy',age:18},
+          {id:12,name:'Bob',age:27},
+          {id:13,name:'Cindy',age:30},
+          {id:14,name:'Danny',age:42},
+          {id:15,name:'Ella',age:59},
+        ]
+      },
+      methods: {
+        deletePer(index){
+          this.persons.splice(index,1)
+        },
+        updatePer(index,newPer){
+          this.persons.splice(index,1,newPer) // splice不是原生数组的方法,而是Vue重新定义的方法
+
+          // this.persons[index] = newPer  // 数据变了,界面不自动更新,也就是数据绑定失败
+
+          /* this.persons[index].id = newPer.id
+          this.persons[index].name = newPer.name
+          this.persons[index].age = newPer.age */
+
+          // this.persons = []
+        }
+      },
+    })
+    /* 
+      vue内部如何监视数据变化?
+        1.对象中的属性数据改变 (响应式属性:当修改属性值时,内部就会自动更新对应的界面)
+          给属性添加setter方法(属性一旦有了setter方法,变更了属性值,setter方法自动调用)
+        2.数组中的元素数据改变
+          重写(重新定义)数组一系列更新数组元素的方法
+          如何实现:
+            1) 调用原生数组对应的方法,对数组元素进行处理
+            2) 更新界面
+    */
+  </script>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="app">
+    <p v-if="isOk">表白成功</p>
+    <p v-else>表白失败</p>
+
+    <p v-show="isOk">求婚成功</p>
+    <p v-show="!isOk">求婚失败</p>
+    <button @click="isOk = !isOk">切换</button>
+  </div>
+  <script src="../js/vue.js"></script>
+  <script>
+    const vm = new Vue({
+      el:'#app',
+      // data:{
+      //   isOk:'成功'
+      // },
+      data() {
+        return {
+          isOk:true
+        }
+      }
+    })
+  </script>
+</body>
+</html>

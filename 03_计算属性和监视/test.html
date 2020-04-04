@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+  <!-- 
+    Object.defineProperty() 方法会直接在一个对象上定义一个新属性，或者修改一个对象的现有属性，并返回这个对象 
+    语法：Object.defineProperty(obj, prop, descriptor)
+  -->
+  <script src="../js/vue.js"></script>
+  <script>
+    /* 
+      需求:给p添加新属性:fullName = firstName + '-' + lastName
+      1.修改firstName / lastName,fullName自动变
+      2.修改fullName,firstName / lastName自动变
+    */
+    const p = {
+      firstName: 'A',
+      lastName: 'B'
+    }
+
+    /* 不能满足1和2要求
+    p.fullName = p.firstName + '-' + p.lastName
+    console.log(p.fullName) //A-B
+
+    p.firstName = 'C'
+    p.lastName = 'D'
+    console.log(p.fullName) //A-B
+
+    p.fullName = 'E-F'
+    console.log(p.firstName, p.lastName) //C,D 
+    */
+
+    Object.defineProperty(p, 'fullName', { // 配置对象==属性描述符
+      // 当读取属性时,回调函数自动调用,函数的返回值作为属性值,this指向属性所属的对象
+      get() {
+        console.log('get()',this)
+        return this.firstName + '-' + this.lastName
+      },
+      // 当修改"了"属性时,回调函数自动调用,用来监视属性值的变化,this指向属性所属的对象
+      set(value) { //value是fullName最新的值E-F
+        // 更新firstName/lastName
+        console.log('set()',value)
+        console.log(typeof(value)) // string
+        console.log(Object.prototype.toString.call(value)) // [object String]
+
+        const name = value.split('-')
+        this.firstName = name[0]
+        this.lastName = name[1]
+      }
+    })
+
+    console.log(p.fullName) //A-B
+
+    p.firstName = 'C'
+    p.lastName = 'D'
+    console.log(p.fullName) //C-D
+
+    
+    p.fullName = 'E-F'
+    console.log(p.firstName, p.lastName) //E F 
+  </script>
+</body>
+
+</html>

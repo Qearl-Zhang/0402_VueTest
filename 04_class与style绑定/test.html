@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .classA {
+      color: red;
+    }
+
+    .classB {
+      color: blue;
+    }
+
+    .classC {
+      font-size: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <h2>1.class绑定</h2>
+    <p class="classC" :class="myClass">这是XXXX</p><!-- 类名不确定 -->
+    <p :class="{classA:hasA,classB:hasB}">yyyyy</p> <!-- 什么时候用对象形式?类名确定,但不确定有没有 -->
+    <p :class="['classA','classB']">zzzzz</p><!-- 数组形式用的很少 -->
+
+    <h2>2.style绑定</h2>
+    <p :style="{color:activeColor,fontSize:fontSize}">这里</p>
+    <button @click="update">更新</button>
+  </div>
+  <script src="../js/vue.js"></script>
+  <script>
+    const vm = new Vue({
+      // el:'#app',
+      data: {
+        myClass: 'classA',
+        hasA:false,
+        hasB:true,
+        activeColor:'red',
+        fontSize:'30px'
+      },
+      methods: {
+        update() {
+          this.myClass = 'classB'
+          this.hasA = !this.hasA
+          this.hasB = !this.hasB
+          this.activeColor = 'green'
+          this.fontSize = '50px'
+        }
+      },
+    }).$mount('#app')
+  </script>
+</body>
+
+</html>

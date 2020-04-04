@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="app">
+    <!-- 
+      1.列表过滤 
+      2.列表筛选
+    -->
+    <input type="text" v-model="searchName">
+    <ul>
+      <li v-for="(item,index) in filterPersons" :key="item.id">
+        {{item.id}}---{{item.name}}---{{item.age}}
+      </li>
+    </ul>
+    <button @click="sortType=2">按年龄升序</button>
+    <button @click="sortType=3">按年龄降序</button>
+    <button @click="sortType=1">原本顺序</button>
+  </div>
+  <script src="../js/vue.js"></script>
+  <script>
+    const vm = new Vue({
+      el:'#app',
+      data() {
+        return {
+          searchName:'',
+          sortType:1, //标识  1表示不排序,2升序,3降序
+          persons:[
+            {id:11,name:'Amy',age:18},
+            {id:12,name:'Bob',age:27},
+            {id:13,name:'Cindy',age:30},
+            {id:14,name:'Danny',age:42},
+            {id:15,name:'Ella',age:59},
+            {id:16,name:'Fei',age:29},
+            {id:17,name:'Grand',age:9},
+          ]
+        }
+      },
+      computed: {
+        /* 过滤后的新数组 */
+        filterPersons(){
+          // 1.取出依赖数据
+          const {searchName,persons,sortType} = this
+          // 2.计算产生一个新数据
+            // 判断一个字符串是否在另一个字符串中用indexOf方法
+          // 数组过滤
+          const arr = persons.filter((p,index)=>p.name.indexOf(searchName)!== -1)
+          // 有可能要排序(升序/降序)
+          if(sortType !==1){
+            arr.sort((p1,p2)=>{// 如果返回值大于0,将p2放在左边
+              if(sortType === 3){  //降序
+                return p2.age-p1.age
+              }else{ //升序
+                return p1.age-p2.age
+              }
+              
+            }
+            )
+          }
+          // 3.返回新数据
+          return arr
+        }
+      },
+    })
+  </script>
+</body>
+</html>
