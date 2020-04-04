@@ -155,9 +155,9 @@
     })
 ## 2). 注册局部指令
     directives : {
-    'my-directive' : function(el, binding) {
-        el.innerHTML = binding.value.toUpperCase()
-    }
+        'my-directive' : function(el, binding) {
+            el.innerHTML = binding.value.toUpperCase()
+        }
     }
 ## 3). 使用指令
     <div v-my-directive='xxx'>
