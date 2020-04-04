@@ -29,11 +29,11 @@
         V: View(视图), vue中是模板页面(显示data中的数据)
         VM: ViewModel(视图模型), vue中是Vue实例对象(管理者: 数据绑定/DOM监听) 
 # 3. Vue对象的选项
-    1). el
+## 1). el
         指定dom标签容器的选择器
         Vue就会管理对应的标签及其子标签
         也可以通过$mount()来处理
-    2). data
+## 2). data
         对象或函数类型
         指定初始化状态属性数据的对象
         vm也会自动拥有data中所有属性
@@ -45,12 +45,12 @@
             3. 数组中的元素也实现了监视: 重写数组一系列更新元素的方法 splice/push/pop/unshift/shift/sort()
                 1). 调用原生对应的方法对元素进行处理
                 2). 去更新界面
-    3). methods
+## 3). methods
         包含多个方法的对象
         供页面中的事件指令来绑定回调
         回调函数默认有event参数, 但也可以指定自己的参数
         所有的方法由vue对象来调用, 访问data中的属性直接使用this.xxx
-    4). computed
+## 4). computed
         包含多个计算属性的对象
         根据已有属性进行计算返回一个新的数据, 供页面获取显示
         如果同时还需要监视计算属性的变化, 需要使用getter/setter
@@ -62,7 +62,7 @@
             什么时候回调执行?
             它的作用是什么?
             函数中的this是谁?
-    5). watch
+## 5). watch
         包含多个属性监视的对象
         分为一般监视和深度监视
             'xxx.yyy': function (value) {},
@@ -89,3 +89,32 @@
         <transition name="xxx">
         <p v-if="show">hello</p>
         </transition>
+# 5. 生命周期
+    vm/组件对象
+    生命周期图
+        beforeCreate()  vm.xxx不能读到data中的数据
+        实现数据代理/数据绑定的监视
+        created()
+        beforeMount()   vm.$refs.xxx不能读到标签对象
+        初始显示
+        mounted()
+        beforeUpdate()  读取的只能是老的界面
+        更新界面
+        updated()
+        beforeDestroy()
+        Destroyed()
+    主要的生命周期函数(钩子)
+    mounted(): 启动异步任务(启动定时器,发送ajax请求, 绑定监听)
+    beforeDestroy(): 做一些收尾的工作
+# 6. 自定义过滤器
+## 1). 理解
+    对需要显示的数据进行格式化后再显示
+## 2). 编码
+        1). 定义过滤器
+            Vue.filter(filterName, function(value[,arg1,arg2,...]){
+            // 进行一定的数据处理
+            return newValue
+            })
+        2). 使用过滤器
+            <div>{{myData | filterName}}</div>
+            <div>{{myData | filterName(arg)}}</div>
